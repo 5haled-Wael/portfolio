@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "title": "Movie App",
+    "description": "A dynamic movie discovery app built with React.js, featuring real-time data from an external API. Users can browse, search, and explore movies with a clean responsive interface built on reusable components.",
+    "tags": [
+      "React.js",
+      "REST API",
+      "Responsive Design",
+      "Component Architecture"
+    ],
+    "github": "https://github.com/5haled-Wael/movie-app-react",
+    "live": "https://movie-app-react-v1.netlify.app/"
+  },
+  {
+    "id": 2,
+    "title": "Tarmeez Blog – Vanilla JS",
+    "description": "A feature-rich blog-style web application built with pure JavaScript — no frameworks. Demonstrates mastery of DOM manipulation, event-driven architecture, and complex UI logic from scratch.",
+    "tags": ["JavaScript", "DOM", "Event Handling", "UI Logic"],
+    "github": "https://github.com/5haled-Wael/Tarmeez-Advanced_JavaScript",
+    "live": "https://tarmeez-advanced-javascritp.netlify.app/"
+  },
+  {
+    "id": 3,
+    "title": "Front-End Templates",
+    "description": "A collection of 3 pixel-perfect responsive templates crafted with pure HTML & CSS, inspired by real-world professional layouts.",
+    "tags": ["HTML5", "CSS3", "Responsive Design", "UI/UX"],
+    "github": "https://github.com/5haled-Wael?tab=repositories",
+    "subLinks": [
+      {
+        "label": "Leon Template",
+        "github": "https://github.com/5haled-Wael/leon-template",
+        "live": "https://5haled-wael.github.io/leon-template/"
+      },
+      {
+        "label": "Kasper Template",
+        "github": "https://github.com/5haled-Wael/kasper-template",
+        "live": "https://5haled-wael.github.io/kasper-template/"
+      },
+      {
+        "label": "Elzero Template",
+        "github": "https://github.com/5haled-Wael/Elzero-Template",
+        "live": "https://5haled-wael.github.io/Elzero-Template/"
+      }
+    ]
+  }
+]
