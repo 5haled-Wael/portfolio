@@ -26,15 +26,15 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-colors px-6 md:px-8 py-4 ${scrolled ? "bg-surface backdrop-blur-md shadow-lg" : ""}`}
+      className={`fixed top-0 left-0 z-50 w-full px-6 py-4 transition-colors md:px-8 ${scrolled ? "bg-surface shadow-lg backdrop-blur-md" : ""}`}
     >
-      <div className="container max-w-6xl mx-auto flex items-center justify-between">
+      <div className="container mx-auto flex max-w-6xl items-center justify-between">
         <div className="text-primary text-2xl font-bold tracking-wider">
           Portfolio
         </div>
 
         {/* Desktop Navigation */}
-        <ul className="space-x-4 hidden md:flex">
+        <ul className="hidden space-x-4 md:flex">
           {NavLinks.map((link) => (
             <li key={link.name}>
               <a
@@ -49,7 +49,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden flex flex-col gap-1.5 p-1 cursor-pointer"
+          className="flex cursor-pointer flex-col gap-1.5 p-1 md:hidden"
           onClick={() => setOpen(!open)}
         >
           <motion.span
@@ -73,11 +73,7 @@ const Navbar = () => {
 
         {open && (
           <motion.ul
-            className="absolute left-0 top-full w-full md:hidden
-               flex flex-col items-center space-y-4
-               rounded-b-xl
-               bg-accent-glow/80 py-2
-               backdrop-blur-md shadow-lg"
+            className="bg-accent-glow/80 absolute top-full left-0 flex w-full flex-col items-center space-y-4 rounded-b-xl py-2 shadow-lg backdrop-blur-md md:hidden"
             variants={fadeDown}
             initial="hidden"
             animate="visible"
@@ -85,7 +81,7 @@ const Navbar = () => {
             {NavLinks.map((link) => (
               <li
                 key={link.name}
-                className="border-b last:border-0 border-border w-full text-center py-2 pb-4"
+                className="border-border w-full border-b py-2 pb-4 text-center last:border-0"
               >
                 <a
                   href={link.href}

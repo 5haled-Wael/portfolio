@@ -5,11 +5,11 @@ const CARD_W = 130;
 const CARD_H = 195;
 const ROPE_REST = 180;
 const GRAVITY = 0.5;
-const DAMPING = 0.893;
-const STIFFNESS = 0.019;
-const BOUNCE = 0.32;
-const TILT_SPRING = 0.11;
-const TILT_DAMP = 0.8;
+const DAMPING = 0.97;
+const STIFFNESS = 0.18;
+const BOUNCE = 0.6;
+const TILT_SPRING = 0.3;
+const TILT_DAMP = 0.5;
 const MAX_TILT = 0.42;
 
 const PendulumCard = () => {
@@ -114,8 +114,8 @@ const PendulumCard = () => {
         wy += v.vy * w;
         total += w;
       });
-      s.vx = (wx / total) * 0.9;
-      s.vy = (wy / total) * 0.9;
+      s.vx = (wx / total) * 1.5;
+      s.vy = (wy / total) * 1.5;
     }
     s.velBuf = [];
   }, []);

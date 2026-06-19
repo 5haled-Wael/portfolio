@@ -6,6 +6,8 @@ import Navbar from "./components/Navbar";
 import HeroBackground from "./components/HeroBackground";
 import { fadeIn } from "./animations/animations";
 import About from "./components/About";
+import Tools from "./components/Tools";
+import Projects from "./components/Project";
 
 const App = () => {
   const [loaded, setLoaded] = useState(false);
@@ -25,15 +27,21 @@ const App = () => {
               <Navbar />
             </motion.div>
 
-            <motion.div
-              variants={fadeIn({ delay: 0.2 })}
-              initial="hidden"
-              animate="visible"
-            >
-              <Hero />
-            </motion.div>
+            <div className="container mx-auto mt-10 w-full max-w-6xl px-6 md:px-8">
+              <motion.div
+                variants={fadeIn({ delay: 0.2 })}
+                initial="hidden"
+                animate="visible"
+              >
+                <Hero />
+              </motion.div>
 
-            <About />
+              <About />
+
+              <Tools />
+
+              <Projects />
+            </div>
           </div>
         )}
       </AnimatePresence>

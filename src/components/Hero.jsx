@@ -5,8 +5,8 @@ import ImageCard from "../components/ImageCard";
 
 const Hero = () => {
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden py-20 md:mt-4 md:py-0">
-      <div className="container mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 md:flex-row md:items-center md:px-8">
+    <section className="relative flex min-h-screen items-center overflow-hidden">
+      <div className="flex w-full flex-col gap-12 md:flex-row md:items-center">
         <motion.div
           variants={fadeUp({ delay: 0.2 })}
           initial="hidden"

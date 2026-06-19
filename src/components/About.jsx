@@ -10,7 +10,7 @@ const About = () => {
   const text = personalInfo.about;
 
   return (
-    <div className="container mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-6 md:px-8">
+    <div className="flex flex-col items-center justify-center">
       <div className="from-background via-surface to-surface border-accent flex min-h-100 w-full rounded-xl border bg-gradient-to-br px-6 py-12 shadow-[0_10px_30px_rgba(124,93,249,0.25)] md:px-10 md:py-20">
         <div ref={ref} className="md:flex-1">
           <motion.h1
