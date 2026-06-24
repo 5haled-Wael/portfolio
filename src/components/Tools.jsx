@@ -5,7 +5,7 @@ import personalInfo from "../data/personalInfo";
 
 const Tools = () => {
   return (
-    <div className="mt-10">
+    <section className="mt-10" id="tools">
       <motion.h1
         className="flex items-center text-2xl font-bold md:text-3xl"
         variants={fadeUp()}
@@ -51,7 +51,7 @@ const Tools = () => {
           </motion.div>
         ))}
       </motion.div>
-    </div>
+    </section>
   );
 };
 

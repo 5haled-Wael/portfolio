@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
+  // Handle scroll event to change navbar background
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -17,9 +19,32 @@ const Navbar = () => {
     };
   }, []);
 
+  // Handle section change
+  useEffect(() => {
+    const sections = document.querySelectorAll("section");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.2 },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const NavLinks = [
     { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
+    { name: "Tools", href: "#tools" },
     { name: "Projects", href: "#projects" },
     { name: "Contact", href: "#contact" },
   ];
@@ -39,7 +64,11 @@ const Navbar = () => {
             <li key={link.name}>
               <a
                 href={link.href}
-                className="text-primary hover:text-primary/80 transition-colors"
+                className={
+                  activeSection === link.href.slice(1)
+                    ? "text-accent hover:text-accent/80 transition-colors"
+                    : "text-primary hover:text-accent transition-colors"
+                }
               >
                 {link.name}
               </a>
@@ -53,17 +82,17 @@ const Navbar = () => {
           onClick={() => setOpen(!open)}
         >
           <motion.span
-            className="block h-px w-6 bg-[var(--color-primary)]"
+            className="bg-primary block h-px w-6"
             animate={open ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
             transition={{ duration: 0.2 }}
           />
           <motion.span
-            className="block h-px w-6 bg-[var(--color-primary)]"
+            className="bg-primary block h-px w-6"
             animate={open ? { opacity: 0 } : { opacity: 1 }}
             transition={{ duration: 0.2 }}
           />
           <motion.span
-            className="block h-px w-6 bg-[var(--color-primary)]"
+            className="bg-primary block h-px w-6"
             animate={open ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
             transition={{ duration: 0.2 }}
           />
@@ -85,7 +114,8 @@ const Navbar = () => {
               >
                 <a
                   href={link.href}
-                  className="text-primary hover:text-primary/80 transition-colors"
+                  onClick={() => setOpen(false)}
+                  className="text-primary hover:text-accent transition-colors"
                 >
                   {link.name}
                 </a>

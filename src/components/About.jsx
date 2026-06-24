@@ -10,8 +10,11 @@ const About = () => {
   const text = personalInfo.about;
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="from-background via-surface to-surface border-accent flex min-h-100 w-full rounded-xl border bg-gradient-to-br px-6 py-12 shadow-[0_10px_30px_rgba(124,93,249,0.25)] md:px-10 md:py-20">
+    <section
+      className="behavior-smooth mt-5 flex flex-col items-center justify-center"
+      id="about"
+    >
+      <div className="from-background via-surface to-surface border-accent flex min-h-100 w-full rounded-xl border bg-linear-to-br px-6 py-12 shadow-[0_10px_30px_rgba(124,93,249,0.25)] md:px-10 md:py-20">
         <div ref={ref} className="md:flex-1">
           <motion.h1
             className="text-2xl font-bold md:text-3xl"
@@ -77,7 +80,7 @@ const About = () => {
           <PendulumCard />
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

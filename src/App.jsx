@@ -7,7 +7,9 @@ import HeroBackground from "./components/HeroBackground";
 import { fadeIn } from "./animations/animations";
 import About from "./components/About";
 import Tools from "./components/Tools";
-import Projects from "./components/Project";
+import Projects from "./components/Projects";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
 
 const App = () => {
   const [loaded, setLoaded] = useState(false);
@@ -41,12 +43,14 @@ const App = () => {
               <Tools />
 
               <Projects />
+
+              <Contact />
+
+              <Footer />
             </div>
           </div>
         )}
       </AnimatePresence>
-
-      <div className="h-100"></div>
     </div>
   );
 };

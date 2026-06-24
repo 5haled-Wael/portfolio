@@ -12,6 +12,23 @@
   --font-body: "Inter", sans-serif;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #12121a inset;
+  -webkit-text-fill-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+::selection {
+  background-color: #7b61ff;
+  color: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 h1,
 h2,
 h3,
@@ -24,12 +41,4 @@ body {
   font-family: var(--font-body);
   background-color: var(--color-background);
   color: var(--color-primary);
-}
-
-a {
-  color: var(--color-primary);
-}
-
-a:hover {
-  color: var(--color-accent);
 }

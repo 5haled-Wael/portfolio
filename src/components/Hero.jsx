@@ -5,8 +5,11 @@ import ImageCard from "../components/ImageCard";
 
 const Hero = () => {
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden">
-      <div className="flex w-full flex-col gap-12 md:flex-row md:items-center">
+    <section
+      className="relative flex min-h-screen items-center overflow-hidden"
+      id="home"
+    >
+      <div className="mt-20 flex w-full flex-col gap-12 md:mt-0 md:flex-row md:items-center">
         <motion.div
           variants={fadeUp({ delay: 0.2 })}
           initial="hidden"
@@ -25,12 +28,19 @@ const Hero = () => {
             {personalInfo.subtitle}
           </p>
           <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row md:justify-start">
-            <button className="bg-accent-glow hover:bg-accent cursor-pointer rounded-full px-5 py-3 transition-colors hover:text-black">
+            <a
+              href="/CV.pdf"
+              download
+              className="bg-accent-glow hover:bg-accent cursor-pointer rounded-full px-5 py-3 transition-colors hover:text-black"
+            >
               Download my CV
-            </button>
-            <button className="bg-accent-glow hover:bg-accent cursor-pointer rounded-full px-5 py-3 transition-colors hover:text-black">
+            </a>
+            <a
+              href="#projects"
+              className="bg-accent-glow hover:bg-accent cursor-pointer rounded-full px-5 py-3 transition-colors hover:text-black"
+            >
               Explore my projects
-            </button>
+            </a>
           </div>
         </motion.div>
 

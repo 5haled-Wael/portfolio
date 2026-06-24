@@ -113,9 +113,12 @@ const ImageCard = ({ name = "", title = "", image = 0 }) => {
           </div>
 
           {/* Right: Button */}
-          <button className="bg-accent-glow hover:bg-accent shrink-0 cursor-pointer rounded-lg px-4 py-1.5 text-xs font-medium transition-colors hover:text-black">
+          <a
+            href="#contact"
+            className="bg-accent-glow hover:bg-accent shrink-0 cursor-pointer rounded-lg px-4 py-1.5 text-xs font-medium transition-colors hover:text-black"
+          >
             Contact Me
-          </button>
+          </a>
         </div>
       </div>
     </div>
