@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import projectRoutes from './routes/projectRoutes.js';
+import errorMiddleware from './middleware/errorMiddleware.js';
 
 const app = express();
 
@@ -12,5 +13,7 @@ app.use('/api/projects', projectRoutes);
 app.get('/', (req, res) => {
   res.send('<h1>Welcome to the Portfolio API</h1>');
 });
+
+app.use(errorMiddleware);
 
 export default app;

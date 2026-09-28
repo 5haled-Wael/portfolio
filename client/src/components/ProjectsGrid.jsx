@@ -1,8 +1,16 @@
 import { motion } from "motion/react";
-import projects from "../data/projects.json";
 import { fadeUp } from "../animations/animations";
+import useProjects from "../hooks/useProjects";
 
 const ProjectsGrid = () => {
+  const { projects, loading, error } = useProjects();
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (projects.length === 0) return <div>No projects found</div>;
+
+  console.log(projects);
+
   return (
     <div className="mt-12">
       <motion.div
@@ -13,13 +21,13 @@ const ProjectsGrid = () => {
       >
         {projects.map((project, index) => (
           <motion.div
-            key={project.id}
+            key={project._id}
             variants={fadeUp({ delay: 0.3 * (index + 1) })}
             className="group border-accent/20 hover:border-accent/60 bg-surface rounded-xl border p-5 shadow-sm transition-colors duration-300"
           >
             <div className="relative">
               <img
-                src={project.image}
+                src={project.image.url}
                 alt={project.title}
                 className="h-48 w-full rounded-lg object-cover object-top"
               />
@@ -46,9 +54,9 @@ const ProjectsGrid = () => {
             </div>
 
             <div className="mt-4 flex gap-3">
-              {project.live && (
+              {project.liveUrl && (
                 <a
-                  href={project.live}
+                  href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-accent-glow hover:bg-accent rounded-2xl px-4 py-2 text-sm transition-colors hover:text-black"
@@ -57,9 +65,9 @@ const ProjectsGrid = () => {
                 </a>
               )}
 
-              {project.github && (
+              {project.githubUrl && (
                 <a
-                  href={project.github}
+                  href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-accent-glow hover:bg-accent rounded-2xl px-4 py-2 text-sm transition-colors hover:text-black"
