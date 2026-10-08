@@ -9,7 +9,7 @@ const ProjectsGrid = () => {
   if (error) return <div>Error: {error.message}</div>;
   if (projects.length === 0) return <div>No projects found</div>;
 
-  console.log(projects);
+  const featuredProjects = projects.filter((project) => project.featured);
 
   return (
     <div className="mt-12">
@@ -19,7 +19,7 @@ const ProjectsGrid = () => {
         viewport={{ once: true, amount: 0.1 }}
         className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
-        {projects.map((project, index) => (
+        {featuredProjects.map((project, index) => (
           <motion.div
             key={project._id}
             variants={fadeUp({ delay: 0.3 * (index + 1) })}

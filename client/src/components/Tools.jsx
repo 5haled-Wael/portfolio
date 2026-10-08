@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
 import { fadeUp } from "../animations/animations";
 import { LuAmpersand } from "react-icons/lu";
-import personalInfo from "../data/personalInfo";
+import useSkills from "../hooks/useSkills";
 
 const Tools = () => {
+  const { skills } = useSkills();
+
   return (
     <section className="mt-10" id="tools">
       <motion.h1
@@ -32,7 +34,7 @@ const Tools = () => {
         viewport={{ once: true, amount: 0.2 }}
         className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
       >
-        {personalInfo.skills.map((skill, i) => (
+        {skills.map((skill, i) => (
           <motion.div
             key={i}
             variants={fadeUp({ delay: i * 0.1 })}

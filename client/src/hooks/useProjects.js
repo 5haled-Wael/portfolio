@@ -1,32 +1,18 @@
-import { useEffect, useState } from "react";
-import API from "../api/api";
+import { useQuery } from "@tanstack/react-query";
+import { getProjects } from "../services/projectService";
 
 const useProjects = () => {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ["projects"],
+    queryFn: getProjects,
+  });
 
-  const fetchProjects = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await API.get("/projects");
-      setProjects(response.data);
-    } catch (error) {
-      console.log(error);
-      setError(error);
-      setProjects([]);
-    } finally {
-      setLoading(false);
-    }
+  return {
+    projects: data ?? [],
+    loading: isLoading,
+    error,
+    refetch,
   };
-
-  useEffect(() => {
-    fetchProjects();
-  }, []);
-
-  return { projects, loading, error };
 };
 
 export default useProjects;
