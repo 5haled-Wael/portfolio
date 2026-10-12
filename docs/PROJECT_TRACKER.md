@@ -62,6 +62,10 @@ The statuses below reflect the latest known project context. Items marked **Need
 | F14 | End-to-end testing and bug fixing | Not Started | P0 | TBD | F04, F06, F08, F10, F11, F12 |
 | F15 | Production configuration and deployment | Not Started | P0 | TBD | F14 |
 | F16 | Final UI polish and responsive/accessibility pass | Not Started | P1 | TBD | Main public/admin features |
+| F17 | Personal profile content management (Hero/About/education) | Not Started | P0 | TBD | F02, F05 |
+| F18 | Profile image and CV management | Needs Audit | P1 | TBD | F02, F05 |
+| F19 | Contact details and social links management | Not Started | P1 | TBD | F02, F05 |
+| F20 | Site-wide content/settings (stats, availability, navigation/footer) | Needs Audit | P1 | TBD | F02, F05 |
 
 **Important:** “Done” above records previously reported implementation and testing, not a fresh inspection of every file in the repository. Reopen a row if a current-branch check finds missing work.
 
@@ -150,6 +154,47 @@ The statuses below reflect the latest known project context. Items marked **Need
 | CONTACT-02 | If required, implement backend message storage and validation | Needs Audit | TBD | — | Only create if the intended scope requires it |
 | CONTACT-03 | Test contact submission and user feedback | Todo | TBD | — | |
 
+### F17 — Personal profile content management
+
+| Task ID | Task | Status | Estimate (h) | Actual (h) | Notes |
+|---|---|---|---:|---:|---|
+| PROFILE-01 | Audit static profile data used by Hero and About | Needs Audit | TBD | — | Start from `personalInfo.js` |
+| PROFILE-02 | Define editable profile fields and validation | Todo | TBD | — | Name, role/title, subtitle, About, university, graduation year |
+| PROFILE-03 | Implement profile model/API for reading and updating profile content | Todo | TBD | — | Confirm single-profile document vs settings document before coding |
+| PROFILE-04 | Connect public Hero/About/education content to API | Todo | TBD | — | Preserve current design |
+| PROFILE-05 | Build protected admin edit form | Todo | TBD | — | One profile record; no public create/delete flow needed |
+| PROFILE-06 | Test validation, loading/error states, and public updates | Todo | TBD | — |
+
+### F18 — Profile image and CV management
+
+| Task ID | Task | Status | Estimate (h) | Actual (h) | Notes |
+|---|---|---|---:|---:|---|
+| MEDIA-01 | Locate current profile image and CV/download link | Needs Audit | TBD | — | Confirm current implementation before choosing storage |
+| MEDIA-02 | Decide whether profile image/CV use Cloudinary or static assets | Todo | TBD | — | Consider file types, replacement, and deployment |
+| MEDIA-03 | Implement admin upload/replacement workflow if in scope | Todo | TBD | — | |
+| MEDIA-04 | Connect Hero/profile image and CV link to managed data | Todo | TBD | — | |
+| MEDIA-05 | Test upload, replacement, and public download/display | Todo | TBD | — |
+
+### F19 — Contact details and social links management
+
+| Task ID | Task | Status | Estimate (h) | Actual (h) | Notes |
+|---|---|---|---:|---:|---|
+| SOCIAL-01 | Audit current contact/social URLs and email/WhatsApp links | Needs Audit | TBD | — | Current values appear in static source |
+| SOCIAL-02 | Define editable contact fields and validation | Todo | TBD | — | Email, GitHub, LinkedIn, WhatsApp, and any confirmed links |
+| SOCIAL-03 | Implement API and protected admin edit form | Todo | TBD | — | |
+| SOCIAL-04 | Connect public Contact section and footer links to managed data | Todo | TBD | — | |
+| SOCIAL-05 | Test links, missing optional values, and form feedback | Todo | TBD | — |
+
+### F20 — Site-wide content and settings
+
+| Task ID | Task | Status | Estimate (h) | Actual (h) | Notes |
+|---|---|---|---:|---:|---|
+| SETTINGS-01 | Inventory static stats, availability badge, navigation labels/anchors, and footer content | Needs Audit | TBD | — | |
+| SETTINGS-02 | Decide which site-wide values need admin editing | Todo | TBD | — | Avoid overengineering; derive project/skill/certificate counts where possible |
+| SETTINGS-03 | Implement approved settings fields/API/admin UI | Todo | TBD | — | |
+| SETTINGS-04 | Connect approved settings to public UI | Todo | TBD | — | |
+| SETTINGS-05 | Test fallback behavior for missing optional settings | Todo | TBD | — |
+
 ### F13 — Admin Dashboard (deferred)
 
 | Task ID | Task | Status | Estimate (h) | Actual (h) | Notes |
@@ -196,10 +241,11 @@ The statuses below reflect the latest known project context. Items marked **Need
 | M2 — Authentication | Admin login and protected routes work | Done |
 | M3 — Skills | Public skills and admin CRUD work end to end | Done |
 | M4 — Certificates | Public gallery and admin CRUD both work end to end | In Progress |
-| M5 — Contact | Contact behavior is defined and tested | Needs Audit |
-| M6 — Feature freeze | All P0 features complete; no known critical bugs | Not Started |
-| M7 — Release | Production deployment and smoke tests pass | Not Started |
-| M8 — Dashboard | Dashboard uses live data after core features ship | Deferred |
+| M5 — Content management | Profile, contact/social, media, and approved site settings can be edited from Admin | Not Started |
+| M6 — Contact behavior | Public contact flow is defined and tested | Needs Audit |
+| M7 — Feature freeze | All P0 features complete; no known critical bugs | Not Started |
+| M8 — Release | Production deployment and smoke tests pass | Not Started |
+| M9 — Dashboard | Dashboard uses live data after core features ship | Deferred |
 
 ---
 
@@ -224,7 +270,9 @@ After 3–5 completed tasks, compare estimates with actual time and adjust the r
 
 ## 7. Decisions to confirm
 
-- [ ] Is Contact intended to send email only, or store submissions in the database/admin?
-- [ ] Should backend upload middleware strictly reject non-image files for certificates, or is frontend-only filtering acceptable for this project?
-- [ ] Is Admin Certificates CRUD already implemented locally, or is it still to be built?
-- [ ] Confirm the current deployment target for client/server before estimating deployment tasks.
+- [ ] Confirm whether Contact stays email-service based or needs a database-backed message inbox; current code calls `sendEmail`.
+- [ ] Confirm backend image-only validation for certificate uploads; frontend `accept="image/*"` is not server-side enforcement.
+- [ ] Confirm whether Admin Certificates CRUD already exists locally or still needs implementation.
+- [ ] Audit current profile image and CV implementation and whether both must be editable from Admin.
+- [ ] Approve which static values (profile, contact/social links, stats, availability, footer) should be admin-managed.
+- [ ] Confirm deployment target for client/server before estimating deployment tasks.
