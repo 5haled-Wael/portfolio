@@ -11,6 +11,9 @@ import EditProject from "./admin/pages/EditProject";
 import AdminSkills from "./admin/pages/AdminSkills";
 import AddSkill from "./admin/pages/AddSkill";
 import EditSkill from "./admin/pages/EditSkill";
+import AdminCertificates from "./admin/pages/AdminCertificates";
+import AddCertificate from "./admin/pages/AddCertificate";
+import EditCertificate from "./admin/pages/EditCertificate";
 
 const App = () => {
   return (
@@ -38,6 +41,10 @@ const App = () => {
             <Route path="skills" element={<AdminSkills />} />
             <Route path="skills/new" element={<AddSkill />} />
             <Route path="skills/edit/:id" element={<EditSkill />} />
+
+            <Route path="certificates" element={<AdminCertificates />} />
+            <Route path="certificates/new" element={<AddCertificate />} />
+            <Route path="certificates/edit/:id" element={<EditCertificate />} />
           </Route>
         </Routes>
       </Router>

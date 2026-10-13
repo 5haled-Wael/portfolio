@@ -11,6 +11,7 @@ const Sidebar = () => {
     { name: "Dashboard", path: "/admin/dashboard" },
     { name: "Projects", path: "/admin/projects" },
     { name: "Skills", path: "/admin/skills" },
+    { name: "Certificates", path: "/admin/certificates" },
   ];
 
   const handleNavClick = () => {

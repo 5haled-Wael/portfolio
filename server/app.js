@@ -4,6 +4,7 @@ import projectRoutes from './routes/projectRoutes.js';
 import errorMiddleware from './middleware/errorMiddleware.js';
 import authRoutes from './routes/authRoutes.js';
 import skillRoutes from './routes/skillRoutes.js';
+import certificateRoutes from './routes/certificateRoutes.js';
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(cors());
 
 app.use('/api/projects', projectRoutes);
 app.use('/api/skills', skillRoutes);
+app.use('/api/certificates', certificateRoutes);
 app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
