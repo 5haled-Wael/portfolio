@@ -14,6 +14,7 @@ import EditSkill from "./admin/pages/EditSkill";
 import AdminCertificates from "./admin/pages/AdminCertificates";
 import AddCertificate from "./admin/pages/AddCertificate";
 import EditCertificate from "./admin/pages/EditCertificate";
+import ProfileManagement from "./admin/pages/ProfileManagement";
 
 const App = () => {
   return (
@@ -45,6 +46,8 @@ const App = () => {
             <Route path="certificates" element={<AdminCertificates />} />
             <Route path="certificates/new" element={<AddCertificate />} />
             <Route path="certificates/edit/:id" element={<EditCertificate />} />
+
+            <Route path="profile" element={<ProfileManagement />} />
           </Route>
         </Routes>
       </Router>

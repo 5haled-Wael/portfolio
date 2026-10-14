@@ -5,6 +5,7 @@ import sendEmail from "../utils/emailService";
 import { MdOutlineEmail, MdOutlineWhatsapp } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
+import useProfile from "../hooks/useProfile";
 
 const handleSubmit = (e) => {
   e.preventDefault();
@@ -21,6 +22,11 @@ const handleSubmit = (e) => {
 };
 
 const Contact = () => {
+  const { profile, loading, error } = useProfile();
+
+  if (loading) return <div className="h-screen w-screen">Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
   return (
     <section className="mt-10 text-center" id="contact">
       <h1 className="mb-3 flex justify-center text-3xl font-bold md:text-4xl">
@@ -132,9 +138,12 @@ const Contact = () => {
 
                 {/* CV */}
                 <a
-                  href="/CV.pdf"
+                  href={profile.cv.url.replace(
+                    "/upload/",
+                    "/upload/fl_attachment:Khaled-Wael-CV/",
+                  )}
                   download
-                  className="bg-accent-glow hover:bg-accent cursor-pointer rounded-2xl px-5 py-3 transition-colors hover:text-black"
+                  className="bg-accent-glow hover:bg-accent cursor-pointer rounded-full px-5 py-3 transition-colors hover:text-black"
                 >
                   Download my CV
                 </a>
@@ -185,7 +194,7 @@ const Contact = () => {
               id="message"
               rows={5}
               spellCheck={false}
-              className="bg-surface text-primary w-full rounded-md border border-gray-200 p-2 text-sm"
+              className="bg-surface text-primary w-full resize-none rounded-md border border-gray-200 p-2 text-sm"
               placeholder="Your message here..."
             />
           </div>

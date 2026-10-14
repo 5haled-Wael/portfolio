@@ -1,13 +1,31 @@
-import personalInfo from "../data/personalInfo";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { fadeUp } from "../animations/animations";
 import PendulumCard from "./PendulumCard";
+import useProfile from "../hooks/useProfile";
+import useProjects from "../hooks/useProjects";
+import useSkills from "../hooks/useSkills";
+import useCertificates from "../hooks/useCertificates";
 
 const About = () => {
+  const { profile, loading: profileLoading } = useProfile();
+  const { projects, loading: projectsLoading } = useProjects();
+  const { skills, loading: skillsLoading } = useSkills();
+  const { certificates, loading: certificatesLoading } = useCertificates();
+
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const text = personalInfo.about;
+
+  const isLoading =
+    profileLoading || projectsLoading || skillsLoading || certificatesLoading;
+
+  const text = profile?.about ?? "";
+
+  const stats = [
+    { label: "Projects", value: projects?.length },
+    { label: "Skills", value: skills?.length },
+    { label: "Certificates", value: certificates?.length },
+  ];
 
   return (
     <section
@@ -16,6 +34,12 @@ const About = () => {
     >
       <div className="from-background via-surface to-surface border-accent flex min-h-100 w-full rounded-xl border bg-linear-to-br px-6 py-12 shadow-[0_10px_30px_rgba(124,93,249,0.25)] md:px-10 md:py-20">
         <div ref={ref} className="md:flex-1">
+          {isLoading && (
+            <div className="bg-surface h-full w-full animate-pulse">
+              Loading...
+            </div>
+          )}
+
           <motion.h1
             className="text-2xl font-bold md:text-3xl"
             initial={{ opacity: 0, y: 10 }}
@@ -44,7 +68,7 @@ const About = () => {
           </p>
 
           <div className="mt-6 flex items-center">
-            {personalInfo.stats.map((stat, i) => (
+            {stats.map((stat, i) => (
               <motion.div
                 key={i}
                 variants={fadeUp({ delay: 0.8 + i * 0.2 })}
@@ -53,7 +77,7 @@ const About = () => {
                 className="flex-1"
               >
                 <span className="text-2xl font-bold md:text-3xl">
-                  {stat.value}
+                  {stat.value ?? 0}
                   <span className="text-accent text-xl md:text-2xl">+</span>
                 </span>
 

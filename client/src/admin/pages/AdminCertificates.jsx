@@ -4,7 +4,9 @@ import AdminCertificateCard from "../components/AdminCertificateCard";
 
 const AdminCertificates = () => {
   const navigate = useNavigate();
-  const { certificates } = useCertificates();
+  const { certificates, isLoading } = useCertificates();
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div>

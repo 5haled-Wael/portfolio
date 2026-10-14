@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback } from "react";
-import personalInfo from "../data/personalInfo";
+import useProfile from "../hooks/useProfile";
 
 const CARD_W = 130;
 const CARD_H = 195;
@@ -13,6 +13,8 @@ const TILT_DAMP = 0.5;
 const MAX_TILT = 0.42;
 
 const PendulumCard = () => {
+  const { profile } = useProfile();
+
   const sceneRef = useRef(null);
   const canvasRef = useRef(null);
   const cardRef = useRef(null);
@@ -288,18 +290,18 @@ const PendulumCard = () => {
 
         <div className="h-[62px] w-[62px] overflow-hidden rounded-xl border-2 border-[#7b61ff]/40 shadow-[0_0_18px_rgba(123,97,255,0.28)]">
           <img
-            src={personalInfo.image}
-            alt={personalInfo.name}
+            src={profile?.image?.url}
+            alt={profile?.name}
             className="h-full w-full object-cover"
           />
         </div>
 
         <span className="text-center font-mono text-[11px] leading-[1.2] font-bold tracking-[0.4px] text-[#e2d9ff]">
-          {personalInfo.name}
+          {profile?.name}
         </span>
 
         <span className="text-center font-mono text-[8.5px] tracking-[1.2px] text-[#06b6d4] uppercase">
-          {personalInfo.title}
+          {profile?.title}
         </span>
 
         <div className="mt-0.5 h-[16px] w-full rounded bg-gradient-to-r from-[#7b61ff] via-[#06b6d4] to-[#49de80] opacity-85" />
