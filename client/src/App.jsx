@@ -15,6 +15,8 @@ import AdminCertificates from "./admin/pages/AdminCertificates";
 import AddCertificate from "./admin/pages/AddCertificate";
 import EditCertificate from "./admin/pages/EditCertificate";
 import ProfileManagement from "./admin/pages/ProfileManagement";
+import MessageManagement from "./admin/pages/MessageManagement";
+import MessageDetails from "./admin/pages/MessageDetails";
 
 const App = () => {
   return (
@@ -48,6 +50,9 @@ const App = () => {
             <Route path="certificates/edit/:id" element={<EditCertificate />} />
 
             <Route path="profile" element={<ProfileManagement />} />
+
+            <Route path="messages" element={<MessageManagement />} />
+            <Route path="messages/details/:id" element={<MessageDetails />} />
           </Route>
         </Routes>
       </Router>

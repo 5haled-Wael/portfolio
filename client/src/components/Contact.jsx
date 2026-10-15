@@ -1,39 +1,49 @@
 import { motion } from "motion/react";
 import { fadeUp } from "../animations/animations";
 import { LuAmpersand } from "react-icons/lu";
-import sendEmail from "../utils/emailService";
 import { MdOutlineEmail, MdOutlineWhatsapp } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 import useProfile from "../hooks/useProfile";
-
-const handleSubmit = (e) => {
-  e.preventDefault();
-
-  const form = e.target;
-
-  sendEmail({
-    name: form.name.value,
-    email: form.email.value,
-    message: form.message.value,
-  });
-
-  form.reset();
-};
+import useCreateMessage from "../hooks/useCreateMessage";
+import { LoaderCircle } from "lucide-react";
+import { toast } from "sonner";
 
 const Contact = () => {
   const { profile, loading, error } = useProfile();
+  const { mutate: createMessage, isPending } = useCreateMessage();
 
-  if (loading) return <div className="h-screen w-screen">Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+
+    createMessage(
+      {
+        name: form.name.value,
+        email: form.email.value,
+        subject: form.subject.value,
+        message: form.message.value,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Message sent successfully!");
+          form.reset();
+        },
+        onError: (error) => {
+          toast.error(error.message);
+        },
+      },
+    );
+  };
 
   return (
     <section className="mt-10 text-center" id="contact">
-      <h1 className="mb-3 flex justify-center text-3xl font-bold md:text-4xl">
+      <h1 className="mb-3 flex items-center justify-center gap-2 text-3xl font-bold md:text-4xl">
         Contact <LuAmpersand /> Chat
       </h1>
       <motion.p
-        className="mx-auto text-sm leading-relaxed text-gray-500 md:text-base"
+        className="text-secondary mx-auto max-w-xl text-sm leading-relaxed md:text-base"
         variants={fadeUp({ delay: 0.2 })}
         initial="hidden"
         whileInView="visible"
@@ -42,6 +52,9 @@ const Contact = () => {
         Get in touch with me and let's discuss how I can help you achieve your
         goals.
       </motion.p>
+
+      {loading && <div className="h-screen w-screen">Loading...</div>}
+      {error && <div>Error: {error.message}</div>}
 
       <motion.div
         className="mt-5 flex flex-col items-stretch gap-6 md:flex-row"
@@ -52,7 +65,7 @@ const Contact = () => {
       >
         {/* CONTACT */}
         <div className="flex-1">
-          <div className="bg-surface border-accent flex h-full flex-col items-start justify-center rounded-md border p-6">
+          <div className="bg-surface border-border flex h-full flex-col items-start justify-center rounded-lg border p-6">
             {/* Label */}
             <div className="flex items-center gap-2 rounded-2xl bg-[#49de80]/10 px-4 py-1 text-sm font-medium text-white">
               <span className="relative flex shrink-0">
@@ -67,69 +80,73 @@ const Contact = () => {
 
             {/* Info */}
             <div className="mt-4 flex w-full flex-col items-start gap-4">
-              <p className="text-sm font-medium text-white/50">CONTACT INFO</p>
+              <p className="text-secondary text-sm font-medium">CONTACT INFO</p>
 
-              <div className="flex w-full flex-col gap-3">
+              <div className="flex w-full flex-col gap-4">
                 {/* Email */}
-                <div className="flex items-center gap-5">
-                  <MdOutlineEmail className="rounded border border-white bg-[#3d3d3d] p-1 text-3xl" />
+                <div className="flex items-center gap-4">
+                  <MdOutlineEmail className="border-border bg-surface text-secondary size-10 rounded-lg border p-2" />
                   <div className="text-start">
-                    <p className="text-xs text-white/50">Email</p>
+                    <p className="text-secondary text-xs">Email</p>
                     <a
-                      href="https://mail.google.com/mail/?view=cm&fs=1&to=waelk8506@gmail.com"
+                      href={`https://mail.google.com/mail/?view=cm&fs=1&to=${profile?.email}`}
                       target="_blank"
-                      className="hover:text-accent text-sm transition-colors"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:text-accent text-sm transition-colors"
                     >
-                      waelk8506@gmail.com
+                      {profile?.email}
                     </a>
                   </div>
                 </div>
 
-                <hr className="w-full border-white/20" />
+                <hr className="border-border w-full" />
 
                 {/* Github */}
-                <div className="flex items-center gap-5">
-                  <FaGithub className="rounded border border-white bg-[#3d3d3d] p-1 text-3xl" />
+                <div className="flex items-center gap-4">
+                  <FaGithub className="border-border bg-surface text-secondary size-10 rounded-lg border p-2" />
                   <div className="text-start">
-                    <p className="text-xs text-white/50">Github</p>
+                    <p className="text-secondary text-xs">Github</p>
                     <a
-                      href="https://github.com/5haled-Wael"
+                      href={profile?.github}
                       target="_blank"
-                      className="hover:text-accent text-sm transition-colors"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:text-accent text-sm transition-colors"
                     >
                       5haled-Wael
                     </a>
                   </div>
                 </div>
 
-                <hr className="w-full border-white/20" />
+                <hr className="border-border w-full" />
 
                 {/* Linkedin */}
-                <div className="flex items-center gap-5">
-                  <FaLinkedinIn className="rounded border border-white bg-[#3d3d3d] p-1 text-3xl" />
+                <div className="flex items-center gap-4">
+                  <FaLinkedinIn className="border-border bg-surface text-secondary size-10 rounded-lg border p-2" />
                   <div className="text-start">
-                    <p className="text-xs text-white/50">Linkedin</p>
+                    <p className="text-secondary text-xs">Linkedin</p>
                     <a
-                      href="https://www.linkedin.com/in/khaled-wael-665375320/"
+                      href={profile?.linkedin}
                       target="_blank"
-                      className="hover:text-accent text-sm transition-colors"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:text-accent text-sm transition-colors"
                     >
                       Khaled Wael
                     </a>
                   </div>
                 </div>
 
-                <hr className="w-full border-white/20" />
+                <hr className="border-border w-full" />
 
                 {/* Whatsapp */}
-                <div className="flex items-center gap-5">
-                  <MdOutlineWhatsapp className="rounded border border-white bg-[#3d3d3d] p-1 text-3xl" />
+                <div className="flex items-center gap-4">
+                  <MdOutlineWhatsapp className="border-border bg-surface text-secondary size-10 rounded-lg border p-2" />
                   <div className="text-start">
-                    <p className="text-xs text-white/50">Whatsapp</p>
+                    <p className="text-secondary text-xs">Whatsapp</p>
                     <a
                       href="https://wa.me/201119217866"
                       target="_blank"
-                      className="hover:text-accent text-sm transition-colors"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:text-accent text-sm transition-colors"
                     >
                       +20 111 921 7866
                     </a>
@@ -138,12 +155,12 @@ const Contact = () => {
 
                 {/* CV */}
                 <a
-                  href={profile.cv.url.replace(
+                  href={profile?.cv.url.replace(
                     "/upload/",
                     "/upload/fl_attachment:Khaled-Wael-CV/",
                   )}
                   download
-                  className="bg-accent-glow hover:bg-accent cursor-pointer rounded-full px-5 py-3 transition-colors hover:text-black"
+                  className="bg-accent text-primary hover:bg-accent/80 rounded-lg px-4 py-2 text-center font-semibold transition-colors"
                 >
                   Download my CV
                 </a>
@@ -155,55 +172,89 @@ const Contact = () => {
         {/* FORM */}
         <form
           onSubmit={handleSubmit}
-          className="bg-surface border-accent focus:text-primary flex flex-1 flex-col gap-7 rounded-md border p-6 text-start"
+          className="bg-surface border-border flex flex-1 flex-col gap-4 rounded-lg border p-6 text-start"
         >
           <div className="flex flex-col gap-2">
-            <label htmlFor="name" className="text-sm font-medium">
+            <label
+              htmlFor="name"
+              className="text-secondary text-sm font-medium"
+            >
               Name
             </label>
             <input
               type="text"
               name="name"
               id="name"
+              required
               spellCheck={false}
-              className="bg-surface text-primary w-full rounded-md border border-gray-200 p-2 text-sm"
+              className="border-border bg-surface text-primary focus:border-accent w-full rounded-lg border px-2 py-1 text-sm outline-none"
               placeholder="Mo Salah"
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-sm font-medium">
+            <label
+              htmlFor="email"
+              className="text-secondary text-sm font-medium"
+            >
               Email
             </label>
             <input
               type="email"
               name="email"
               id="email"
+              required
               spellCheck={false}
-              className="bg-surface text-primary w-full rounded-md border border-gray-200 p-2 text-sm"
+              className="border-border bg-surface text-primary focus:border-accent w-full rounded-lg border px-2 py-1 text-sm outline-none"
               placeholder="mo.salah@example.com"
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="message" className="text-sm font-medium">
+            <label
+              htmlFor="subject"
+              className="text-secondary text-sm font-medium"
+            >
+              Subject
+            </label>
+            <input
+              type="text"
+              name="subject"
+              id="subject"
+              required
+              spellCheck={false}
+              className="border-border bg-surface text-primary focus:border-accent w-full rounded-lg border px-2 py-1 text-sm outline-none"
+              placeholder="Subject"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="message"
+              className="text-secondary text-sm font-medium"
+            >
               Message
             </label>
             <textarea
               name="message"
               id="message"
               rows={5}
+              required
               spellCheck={false}
-              className="bg-surface text-primary w-full resize-none rounded-md border border-gray-200 p-2 text-sm"
+              className="border-border bg-surface text-primary focus:border-accent w-full resize-none rounded-lg border px-2 py-1 text-sm outline-none"
               placeholder="Your message here..."
             />
           </div>
 
           <button
             type="submit"
-            className="bg-accent-glow hover:bg-accent flex cursor-pointer items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-white transition-colors hover:text-black"
+            className="bg-accent text-primary hover:bg-accent/80 flex items-center justify-center rounded-lg px-4 py-2 font-semibold transition-colors"
           >
-            Send
+            {isPending ? (
+              <LoaderCircle className="animate-spin" size={18} />
+            ) : (
+              "Send"
+            )}
           </button>
         </form>
       </motion.div>

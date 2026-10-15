@@ -262,7 +262,7 @@ const PendulumCard = () => {
   return (
     <div
       ref={sceneRef}
-      className="relative h-[440px] w-full cursor-grab touch-none"
+      className="relative h-110 w-full cursor-grab touch-none"
       onMouseDown={onDown}
       onMouseMove={onMove}
       onMouseUp={onUp}
@@ -278,7 +278,7 @@ const PendulumCard = () => {
 
       <div
         ref={cardRef}
-        className="pointer-events-none absolute flex flex-col items-center gap-[7px] rounded-2xl border border-white/10 bg-gradient-to-br from-[#1c1040] via-[#0d0820] to-[#130e30] p-[14px_10px_10px]"
+        className="pointer-events-none absolute flex flex-col items-center gap-1.75 rounded-2xl border border-white/10 bg-linear-to-br from-[#1c1040] via-[#0d0820] to-[#130e30] p-[14px_10px_10px]"
         style={{
           width: CARD_W,
           transformOrigin: "top center",
@@ -286,9 +286,9 @@ const PendulumCard = () => {
             "0 14px 44px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.08)",
         }}
       >
-        <div className="-mb-[2px] h-[13px] w-[13px] rounded-full border-2 border-white/20 bg-[#080614]" />
+        <div className="-mb-0.5 h-3.25 w-3.25 rounded-full border-2 border-white/20 bg-[#080614]" />
 
-        <div className="h-[62px] w-[62px] overflow-hidden rounded-xl border-2 border-[#7b61ff]/40 shadow-[0_0_18px_rgba(123,97,255,0.28)]">
+        <div className="border-accent/40 h-15.5 w-15.5 overflow-hidden rounded-xl border-2 shadow-[0_0_18px_rgba(123,97,255,0.28)]">
           <img
             src={profile?.image?.url}
             alt={profile?.name}
@@ -304,10 +304,10 @@ const PendulumCard = () => {
           {profile?.title}
         </span>
 
-        <div className="mt-0.5 h-[16px] w-full rounded bg-gradient-to-r from-[#7b61ff] via-[#06b6d4] to-[#49de80] opacity-85" />
+        <div className="from-accent mt-0.5 h-4 w-full rounded bg-linear-to-r via-[#06b6d4] to-[#49de80] opacity-85" />
 
         <div className="flex items-center gap-1.5">
-          <div className="h-[6px] w-[6px] rounded-full bg-[#49de80] shadow-[0_0_6px_#49de80]" />
+          <div className="h-1.5 w-1.5 rounded-full bg-[#49de80] shadow-[0_0_6px_#49de80]" />
           <span className="font-mono text-[8px] text-white/40">ONLINE</span>
         </div>
       </div>
