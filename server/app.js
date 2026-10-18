@@ -7,6 +7,7 @@ import skillRoutes from './routes/skillRoutes.js';
 import certificateRoutes from './routes/certificateRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
+import visitRoutes from './routes/visitRoutes.js';
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use('/api/skills', skillRoutes);
 app.use('/api/certificates', certificateRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/visits', visitRoutes);
 app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {

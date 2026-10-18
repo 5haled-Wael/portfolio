@@ -10,8 +10,11 @@ import Projects from "../components/Projects";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import Certificates from "../components/Certificates";
+import useTrackVisit from "../hooks/useTrackVisit";
 
 const Home = () => {
+  useTrackVisit();
+
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {

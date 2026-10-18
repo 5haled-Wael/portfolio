@@ -9,6 +9,7 @@ const Sidebar = () => {
 
   const navLinks = [
     { name: "Dashboard", path: "/admin/dashboard" },
+    { name: "Analytics", path: "/admin/analytics" },
     { name: "Profile", path: "/admin/profile" },
     { name: "Projects", path: "/admin/projects" },
     { name: "Skills", path: "/admin/skills" },

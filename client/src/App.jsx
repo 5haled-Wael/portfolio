@@ -17,6 +17,7 @@ import EditCertificate from "./admin/pages/EditCertificate";
 import ProfileManagement from "./admin/pages/ProfileManagement";
 import MessageManagement from "./admin/pages/MessageManagement";
 import MessageDetails from "./admin/pages/MessageDetails";
+import Analytics from "./admin/pages/Analytics";
 
 const App = () => {
   return (
@@ -53,6 +54,8 @@ const App = () => {
 
             <Route path="messages" element={<MessageManagement />} />
             <Route path="messages/details/:id" element={<MessageDetails />} />
+
+            <Route path="analytics" element={<Analytics />} />
           </Route>
         </Routes>
       </Router>
