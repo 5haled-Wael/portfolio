@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 
-const CertificateForm = ({ initialValues, submit, isPending }) => {
+const CertificateForm = ({
+  initialValues,
+  onSubmit,
+  isPending = false,
+  submitLabel = "Submit",
+}) => {
   const [title, setTitle] = useState(initialValues?.title ?? "");
   const [issuer, setIssuer] = useState(initialValues?.issuer ?? "");
   const [order, setOrder] = useState(initialValues?.order ?? "");
@@ -29,7 +34,7 @@ const CertificateForm = ({ initialValues, submit, isPending }) => {
     formData.append("order", order);
     formData.append("date", date);
     imagesFile.forEach((file) => formData.append("images", file));
-    submit(formData);
+    onSubmit(formData);
   };
 
   return (
@@ -183,7 +188,7 @@ const CertificateForm = ({ initialValues, submit, isPending }) => {
             {isPending ? (
               <LoaderCircle className="animate-spin" size={18} />
             ) : (
-              "Submit"
+              submitLabel
             )}
           </button>
         </div>

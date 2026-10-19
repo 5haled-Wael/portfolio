@@ -11,6 +11,8 @@ import {
   Legend,
   CartesianGrid,
 } from "recharts";
+import LoadingState from "../../components/states/LoadingState";
+import ErrorState from "../../components/states/ErrorState";
 
 const RANGES = [7, 30, 90];
 
@@ -31,11 +33,13 @@ const VisitsMessagesChart = () => {
     timeline,
     loading: timelineLoading,
     error: timelineError,
+    refetch: refetchTimeline,
   } = useVisitsTimeline(days);
   const {
     messages,
     loading: messagesLoading,
     error: messagesError,
+    refetch: refetchMessages,
   } = useMessages();
 
   const visitsByDate = {};
@@ -65,6 +69,10 @@ const VisitsMessagesChart = () => {
 
   const loading = timelineLoading || messagesLoading;
   const error = timelineError || messagesError;
+  const refetch = () => {
+    refetchTimeline();
+    refetchMessages();
+  };
 
   return (
     <div className="border-border bg-surface mt-8 rounded-2xl border p-6 shadow-sm">
@@ -91,69 +99,73 @@ const VisitsMessagesChart = () => {
         </div>
       </div>
 
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
+      {loading && <LoadingState />}
+      {!loading && error && (
+        <ErrorState message={error.message} onRetry={refetch} />
+      )}
 
-      <div className="mt-5">
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={chartData}>
-            <CartesianGrid
-              strokeDasharray="3 3"
-              vertical={false}
-              stroke="var(--color-border)"
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "var(--color-surface)",
-                border: "1px solid var(--color-border)",
-                borderRadius: 8,
-              }}
-              labelStyle={{ color: "var(--color-secondary)" }}
-            />
-            <Legend />
-            <XAxis
-              dataKey="date"
-              tickFormatter={(date) => date.slice(5, 10)}
-              tick={{ fill: "var(--color-secondary)", fontSize: 12 }}
-              axisLine={false}
-              tickLine={false}
-              minTickGap={24}
-            />
-            <YAxis
-              yAxisId="visits"
-              orientation="left"
-              allowDecimals={false}
-              tick={{ fill: "#7b61ff", fontSize: 12 }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <YAxis
-              yAxisId="messages"
-              orientation="right"
-              allowDecimals={false}
-              tick={{ fill: "#49de80", fontSize: 12 }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <Line
-              dataKey="visits"
-              stroke="#7b61ff"
-              strokeWidth={2}
-              yAxisId="visits"
-              dot={false}
-              type="monotone"
-            />
-            <Line
-              dataKey="messages"
-              stroke="#49de80"
-              strokeWidth={2}
-              yAxisId="messages"
-              dot={false}
-              type="monotone"
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+      {!loading && !error && (
+        <div className="mt-5">
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={chartData}>
+              <CartesianGrid
+                strokeDasharray="3 3"
+                vertical={false}
+                stroke="var(--color-border)"
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "var(--color-surface)",
+                  border: "1px solid var(--color-border)",
+                  borderRadius: 8,
+                }}
+                labelStyle={{ color: "var(--color-secondary)" }}
+              />
+              <Legend />
+              <XAxis
+                dataKey="date"
+                tickFormatter={(date) => date.slice(5, 10)}
+                tick={{ fill: "var(--color-secondary)", fontSize: 12 }}
+                axisLine={false}
+                tickLine={false}
+                minTickGap={24}
+              />
+              <YAxis
+                yAxisId="visits"
+                orientation="left"
+                allowDecimals={false}
+                tick={{ fill: "#7b61ff", fontSize: 12 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                yAxisId="messages"
+                orientation="right"
+                allowDecimals={false}
+                tick={{ fill: "#49de80", fontSize: 12 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <Line
+                dataKey="visits"
+                stroke="#7b61ff"
+                strokeWidth={2}
+                yAxisId="visits"
+                dot={false}
+                type="monotone"
+              />
+              <Line
+                dataKey="messages"
+                stroke="#49de80"
+                strokeWidth={2}
+                yAxisId="messages"
+                dot={false}
+                type="monotone"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      )}
     </div>
   );
 };

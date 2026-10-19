@@ -9,7 +9,7 @@ const useVisits = () => {
 
   return {
     visits: data,
-    isLoading,
+    loading: isLoading,
     error,
     refetch,
   };

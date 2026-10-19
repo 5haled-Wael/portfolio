@@ -6,13 +6,18 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { FaReply } from "react-icons/fa";
 import Swal from "sweetalert2";
+import AdminPageHeader from "../components/AdminPageHeader";
+import AdminButton from "../components/AdminButton";
+import LoadingState from "../../components/states/LoadingState";
+import ErrorState from "../../components/states/ErrorState";
+import { LoaderCircle } from "lucide-react";
 
 const MessageDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { mutate: updateMessage } = useUpdateMessage();
-  const { message, isLoading, error } = useMessage(id);
-  const { mutate: deleteMessage, isPending } = useDeleteMessage();
+  const { message, loading, error, refetch } = useMessage(id);
+  const { mutate: deleteMessage, isPending: isDeleting } = useDeleteMessage();
 
   useEffect(() => {
     if (message && !message.isRead) {
@@ -57,34 +62,18 @@ const MessageDetails = () => {
   return (
     <div>
       {/* Header & Back Button */}
-      <div className="border-border mb-8 flex items-center gap-4 border-b pb-4">
-        <button
-          onClick={() => navigate("/admin/messages")}
-          className="border-border text-secondary hover:text-accent hover:border-accent bg-surface flex cursor-pointer items-center justify-center rounded-lg border p-2 transition-colors"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="m15 18-6-6 6-6" />
-          </svg>
-        </button>
-        <h1 className="text-primary text-2xl font-bold">Message Details</h1>
-      </div>
+      <AdminPageHeader title="Message Details">
+        <AdminButton path="/admin/messages" />
+      </AdminPageHeader>
 
-      {isLoading && <div className="text-secondary">Loading...</div>}
-      {error && <div className="text-red-500">Error: {error.message}</div>}
+      {loading && <LoadingState />}
 
-      {/* Message */}
-      {message && (
-        <div className="border-border bg-surface rounded-lg border p-6">
+      {!loading && error && (
+        <ErrorState message={error.message} onRetry={refetch} />
+      )}
+
+      {!loading && !error && message && (
+        <div className="border-border bg-surface mt-8 rounded-lg border p-6">
           <div className="flex flex-col gap-4">
             {/* Name & Email */}
             <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
@@ -118,10 +107,11 @@ const MessageDetails = () => {
             <div className="mt-auto flex items-center gap-3">
               <button
                 onClick={handleDeleteMessage}
-                disabled={isPending}
+                type="button"
+                disabled={isDeleting}
                 className="flex flex-1 cursor-pointer items-center justify-center rounded-lg bg-red-500/10 px-4 py-2 font-semibold text-red-400 transition-colors hover:bg-red-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {isPending ? "Deleting..." : "Delete"}
+                {isDeleting ? <LoaderCircle /> : "Delete"}
               </button>
               <a
                 href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(message.email)}&su=${encodeURIComponent(`Re: ${message.subject}`)}`}

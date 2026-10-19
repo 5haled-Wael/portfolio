@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { fadeUp } from "../animations/animations";
 import { LuAmpersand } from "react-icons/lu";
 import { MdOutlineEmail, MdOutlineWhatsapp } from "react-icons/md";
@@ -10,7 +10,7 @@ import { LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 
 const Contact = () => {
-  const { profile, loading, error } = useProfile();
+  const { profile } = useProfile();
   const { mutate: createMessage, isPending } = useCreateMessage();
 
   const handleSubmit = (e) => {
@@ -52,9 +52,6 @@ const Contact = () => {
         Get in touch with me and let's discuss how I can help you achieve your
         goals.
       </motion.p>
-
-      {loading && <div className="h-screen w-screen">Loading...</div>}
-      {error && <div>Error: {error.message}</div>}
 
       <motion.div
         className="mt-5 flex flex-col items-stretch gap-6 md:flex-row"
@@ -154,16 +151,18 @@ const Contact = () => {
                 </div>
 
                 {/* CV */}
-                <a
-                  href={profile?.cv.url.replace(
-                    "/upload/",
-                    "/upload/fl_attachment:Khaled-Wael-CV/",
-                  )}
-                  download
-                  className="bg-accent text-primary hover:bg-accent/80 rounded-lg px-4 py-2 text-center font-semibold transition-colors"
-                >
-                  Download my CV
-                </a>
+                {profile?.cv?.url && (
+                  <a
+                    href={profile?.cv.url.replace(
+                      "/upload/",
+                      "/upload/fl_attachment:Khaled-Wael-CV/",
+                    )}
+                    download
+                    className="bg-accent text-primary hover:bg-accent/80 rounded-lg px-4 py-2 text-center font-semibold transition-colors"
+                  >
+                    Download my CV
+                  </a>
+                )}
               </div>
             </div>
           </div>
@@ -248,6 +247,7 @@ const Contact = () => {
 
           <button
             type="submit"
+            disabled={isPending}
             className="bg-accent text-primary hover:bg-accent/80 flex items-center justify-center rounded-lg px-4 py-2 font-semibold transition-colors"
           >
             {isPending ? (

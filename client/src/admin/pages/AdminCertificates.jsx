@@ -1,36 +1,51 @@
 import { useNavigate } from "react-router-dom";
 import useCertificates from "../../hooks/useCertificates";
 import AdminCertificateCard from "../components/AdminCertificateCard";
+import AdminPageHeader from "../components/AdminPageHeader";
+import AdminButton from "../components/AdminButton";
+import { PlusCircle } from "lucide-react";
+import LoadingState from "../../components/states/LoadingState";
+import ErrorState from "../../components/states/ErrorState";
+import EmptyState from "../../components/states/EmptyState";
 
 const AdminCertificates = () => {
   const navigate = useNavigate();
-  const { certificates, isLoading } = useCertificates();
-
-  if (isLoading) return <div>Loading...</div>;
+  const { certificates, loading, error, refetch } = useCertificates();
 
   return (
     <div>
-      <div className="border-border flex items-center justify-between border-b pb-4">
-        <h1 className="text-accent border-border text-3xl font-bold">
-          Certificates
-        </h1>
+      {/* Header & Back Button */}
+      <AdminPageHeader title="Certificates">
+        <AdminButton path="/admin/certificates/new" icon={PlusCircle}>
+          Add New Certificate
+        </AdminButton>
+      </AdminPageHeader>
 
-        <button
-          onClick={() => navigate("/admin/certificates/new")}
-          className="bg-accent text-primary hover:bg-accent/80 rounded-lg px-4 py-2 font-semibold transition-colors"
-        >
-          + Add New Certificate
-        </button>
-      </div>
+      {loading && <LoadingState />}
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {certificates.map((certificate) => (
-          <AdminCertificateCard
-            key={certificate._id}
-            certificate={certificate}
-          />
-        ))}
-      </div>
+      {!loading && error && (
+        <ErrorState message={error.message} onRetry={refetch} />
+      )}
+
+      {!loading && !error && certificates.length === 0 && (
+        <EmptyState
+          title="No Certificates Yet"
+          message="Certificates are the backbone of your portfolio. Add some to get started."
+          actionLabel="Add New Certificate"
+          onAction={() => navigate("/admin/certificates/new")}
+        />
+      )}
+
+      {!loading && !error && certificates.length > 0 && (
+        <div className="mt-8 grid grid-cols-1 gap-9 sm:grid-cols-2 lg:grid-cols-3">
+          {certificates.map((certificate) => (
+            <AdminCertificateCard
+              key={certificate._id}
+              certificate={certificate}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

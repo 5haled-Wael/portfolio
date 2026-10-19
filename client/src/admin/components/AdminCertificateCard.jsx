@@ -3,6 +3,7 @@ import useDeleteCertificate from "../hooks/useDeleteCertificate";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 
 const AdminCertificateCard = ({ certificate }) => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -32,7 +33,7 @@ const AdminCertificateCard = ({ certificate }) => {
   };
 
   return (
-    <div className="bg-surface border-border hover:border-accent mt-5 rounded-xl border p-3 shadow-md transition-colors">
+    <div className="bg-surface border-border hover:border-accent rounded-xl border p-3 shadow-md transition-colors">
       <div className="relative flex aspect-4/3 items-center justify-center overflow-hidden rounded-lg bg-black/5">
         {certificate.images.length > 1 && (
           <div className="absolute inset-0 z-10 flex items-center justify-between px-2">
@@ -47,21 +48,7 @@ const AdminCertificateCard = ({ certificate }) => {
                 )
               }
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                className="h-8 w-8"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <path
-                  d="m14 8-4 4 4 4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <ChevronLeft size={32} aria-hidden="true" />
             </button>
 
             <button
@@ -72,21 +59,7 @@ const AdminCertificateCard = ({ certificate }) => {
                 setCurrentImage((currentImage + 1) % certificate.images.length)
               }
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                className="h-8 w-8"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <path
-                  d="m10 8 4 4-4 4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <ChevronRight size={32} aria-hidden="true" />
             </button>
           </div>
         )}
@@ -123,6 +96,7 @@ const AdminCertificateCard = ({ certificate }) => {
 
           <div className="flex gap-2">
             <button
+              type="button"
               onClick={() =>
                 navigate(`/admin/certificates/edit/${certificate._id}`)
               }
@@ -131,10 +105,11 @@ const AdminCertificateCard = ({ certificate }) => {
               Edit
             </button>
             <button
+              type="button"
               onClick={() => handleDeleteCertificate(certificate._id)}
               className="rounded-lg bg-red-500/10 px-4 py-2 text-sm text-red-400 transition-colors hover:bg-red-500 hover:text-white"
             >
-              delete
+              Delete
             </button>
           </div>
         </div>

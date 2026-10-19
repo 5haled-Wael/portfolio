@@ -2,15 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllMessages } from "../../services/messageService";
 
 const useMessages = () => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["messages"],
     queryFn: getAllMessages,
   });
 
   return {
     messages: data ?? [],
-    isLoading,
+    loading: isLoading,
     error,
+    refetch,
   };
 };
 

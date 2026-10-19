@@ -1,15 +1,13 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { fadeUp } from "../animations/animations";
 import useProjects from "../hooks/useProjects";
 
 const ProjectsGrid = () => {
-  const { projects, loading, error } = useProjects();
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-  if (projects.length === 0) return <div>No projects found</div>;
+  const { projects } = useProjects();
 
   const featuredProjects = projects.filter((project) => project.featured);
+
+  if (featuredProjects.length === 0) return <div>No projects found</div>;
 
   return (
     <div className="mt-12">

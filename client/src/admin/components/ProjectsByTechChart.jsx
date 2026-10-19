@@ -7,10 +7,14 @@ import {
   YAxis,
 } from "recharts";
 import useProjects from "../../hooks/useProjects";
+import LoadingState from "../../components/states/LoadingState";
+import ErrorState from "../../components/states/ErrorState";
+import EmptyState from "../../components/states/EmptyState";
+import { useNavigate } from "react-router-dom";
 
 const ProjectsByTechChart = () => {
-  const { projects, loading, error } = useProjects();
-
+  const { projects, loading, error, refetch } = useProjects();
+  const navigate = useNavigate();
   const countByTag = {};
 
   projects.forEach((project) => {
@@ -33,14 +37,22 @@ const ProjectsByTechChart = () => {
         Projects by Technology
       </h3>
 
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
+      {loading && <LoadingState />}
 
-      {projects.length === 0 ? (
-        <p className="text-secondary mt-3 text-sm font-medium">
-          No projects found
-        </p>
-      ) : (
+      {!loading && error && (
+        <ErrorState message={error.message} onRetry={refetch} />
+      )}
+
+      {!loading && !error && chartData.length === 0 && (
+        <EmptyState
+          title="No Technology Data Yet"
+          message="Add projects with technology tags to see your tech stack distribution here."
+          actionLabel="Add Project"
+          onAction={() => navigate("/admin/projects/new")}
+        />
+      )}
+
+      {!loading && !error && chartData.length > 0 && (
         <ResponsiveContainer
           width="100%"
           height={Math.max(chartData.length * 40, 160)}

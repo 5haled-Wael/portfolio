@@ -1,6 +1,15 @@
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { fadeDown } from "../animations/animations";
 import { useEffect, useState } from "react";
+
+const NavLinks = [
+  { name: "Home", href: "#home" },
+  { name: "About", href: "#about" },
+  { name: "Tools", href: "#tools" },
+  { name: "Projects", href: "#projects" },
+  { name: "Certificates", href: "#certificates" },
+  { name: "Contact", href: "#contact" },
+];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -40,15 +49,6 @@ const Navbar = () => {
       observer.disconnect();
     };
   }, []);
-
-  const NavLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Tools", href: "#tools" },
-    { name: "Projects", href: "#projects" },
-    { name: "Certificates", href: "#certificates" },
-    { name: "Contact", href: "#contact" },
-  ];
 
   return (
     <nav

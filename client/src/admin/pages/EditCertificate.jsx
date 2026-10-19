@@ -3,12 +3,16 @@ import CertificateForm from "../components/CertificateForm";
 import useCertificate from "../hooks/useCertificate";
 import useUpdateCertificate from "../hooks/useUpdateCertificate";
 import { toast } from "sonner";
+import AdminPageHeader from "../components/AdminPageHeader";
+import AdminButton from "../components/AdminButton";
+import LoadingState from "../../components/states/LoadingState";
+import ErrorState from "../../components/states/ErrorState";
 
 const EditCertificate = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { data: certificate, isLoading, error } = useCertificate(id);
+  const { certificate, loading, error, refetch } = useCertificate(id);
   const { mutate: updateCertificate, isPending } = useUpdateCertificate();
 
   const handleUpdate = (formData) => {
@@ -29,38 +33,25 @@ const EditCertificate = () => {
   return (
     <section>
       {/* Header & Back Button */}
-      <div className="border-border mb-8 flex items-center gap-4 border-b pb-4">
-        <button
-          className="text-secondary hover:text-accent bg-surface flex items-center justify-center rounded-lg p-2 transition-colors"
-          onClick={() => navigate("/admin/certificates")}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="m15 18-6-6 6-6" />
-          </svg>
-        </button>
-        <h1 className="text-accent text-2xl font-bold">Edit Certificate</h1>
-      </div>
+      <AdminPageHeader title="Edit Certificate">
+        <AdminButton path="/admin/certificates" />
+      </AdminPageHeader>
 
       {/* Form */}
-      <div className="border-border bg-surface rounded-xl border p-6 shadow-sm">
-        {isLoading && <div>Loading...</div>}
-        {error && <div>Error: {error.message}</div>}
-        {certificate && (
+      <div className="border-border bg-surface mt-8 rounded-xl border p-6 shadow-sm">
+        {loading && <LoadingState />}
+
+        {!loading && error && (
+          <ErrorState message={error.message} onRetry={refetch} />
+        )}
+
+        {!loading && !error && certificate && (
           <CertificateForm
             key={certificate._id}
             initialValues={certificate}
-            submit={handleUpdate}
+            onSubmit={handleUpdate}
             isPending={isPending}
+            submitLabel="Save Changes"
           />
         )}
       </div>

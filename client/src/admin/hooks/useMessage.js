@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getMessage } from "../../services/messageService";
 
 const useMessage = (id) => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["messages", id],
     queryFn: () => getMessage(id),
     enabled: Boolean(id),
@@ -10,8 +10,9 @@ const useMessage = (id) => {
 
   return {
     message: data,
-    isLoading,
+    loading: isLoading,
     error,
+    refetch,
   };
 };
 

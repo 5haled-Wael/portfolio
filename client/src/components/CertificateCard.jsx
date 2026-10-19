@@ -1,6 +1,7 @@
 import "yet-another-react-lightbox/styles.css";
+import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { Lightbox } from "yet-another-react-lightbox";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { fadeUp } from "../animations/animations";
 import { useState } from "react";
 
@@ -14,15 +15,15 @@ const CertificateCard = ({ certificate }) => {
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
       variants={fadeUp({ delay: 0.2 })}
-      className="bg-surface border-border hover:border-accent mt-5 rounded-xl border p-3 shadow-md transition-colors"
+      className="bg-surface border-border hover:border-accent mt-5 flex h-full flex-col rounded-xl border p-3 shadow-md transition-[border-color,box-shadow] duration-300 hover:shadow-lg"
     >
-      <div className="relative flex aspect-4/3 items-center justify-center overflow-hidden rounded-lg bg-black/5">
+      <div className="border-border relative flex aspect-4/3 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-black/20">
         {certificate.images.length > 1 && (
           <div className="absolute inset-0 z-10 flex items-center justify-between px-2">
             <button
               type="button"
               aria-label="Previous image"
-              className="rounded-full bg-black/50 p-1 text-white transition hover:bg-black/75"
+              className="bg-accent/80 hover:bg-accent-glow cursor-pointer rounded-full p-1 text-white backdrop-blur-sm transition"
               onClick={() =>
                 setCurrentImage(
                   (currentImage - 1 + certificate.images.length) %
@@ -30,46 +31,18 @@ const CertificateCard = ({ certificate }) => {
                 )
               }
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                className="h-8 w-8"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <path
-                  d="m14 8-4 4 4 4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <ChevronLeft className="h-6 w-6 sm:h-8 sm:w-8" />
             </button>
 
             <button
               type="button"
               aria-label="Next image"
-              className="rounded-full bg-black/50 p-1 text-white transition hover:bg-black/75"
+              className="bg-accent/80 hover:bg-accent-glow cursor-pointer rounded-full p-1 text-white backdrop-blur-sm transition"
               onClick={() =>
                 setCurrentImage((currentImage + 1) % certificate.images.length)
               }
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                className="h-8 w-8"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <path
-                  d="m10 8 4 4-4 4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <ChevronRight className="h-6 w-6 sm:h-8 sm:w-8" />
             </button>
           </div>
         )}
@@ -81,20 +54,20 @@ const CertificateCard = ({ certificate }) => {
         />
       </div>
 
-      <div className="flex flex-col gap-2 px-4 pt-4 pb-5">
-        <p className="text-accent text-xs font-semibold tracking-widest uppercase">
+      <div className="flex flex-1 flex-col gap-2 px-3 pt-4 pb-4 sm:px-4 sm:pb-5">
+        <p className="text-accent truncate text-xs font-semibold tracking-widest uppercase">
           {certificate.issuer}
         </p>
 
         <h3
-          className="line-clamp-2 text-lg leading-snug font-bold"
+          className="text-primary line-clamp-2 text-base leading-snug font-bold sm:text-lg"
           title={certificate.title}
         >
           {certificate.title}
         </h3>
 
-        <div className="border-border mt-2 flex items-center justify-between border-t pt-3">
-          <time dateTime={certificate.date} className="text-sm text-gray-500">
+        <div className="border-border mt-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-t pt-3">
+          <time dateTime={certificate.date} className="text-secondary text-sm">
             {new Date(certificate.date).toLocaleDateString("en-US", {
               year: "numeric",
               month: "short",
@@ -104,23 +77,10 @@ const CertificateCard = ({ certificate }) => {
           <button
             onClick={() => setIsOpen(true)}
             type="button"
-            className="flex gap-2 text-sm text-gray-500"
+            className="text-secondary hover:text-accent flex cursor-pointer items-center gap-2 text-sm transition-colors"
           >
             Show full certificate
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              className="h-4 w-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-              />
-            </svg>
+            <ExternalLink className="h-4 w-4 shrink-0" />
           </button>
 
           {/* Show Image Lightbox */}

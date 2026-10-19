@@ -7,6 +7,9 @@ import useMessages from "../hooks/useMessages";
 import FeatureCard from "../components/FeatureCard";
 import MessageCard from "../components/MessageCard";
 import { useNavigate } from "react-router-dom";
+import LoadingState from "../../components/states/LoadingState";
+import ErrorState from "../../components/states/ErrorState";
+import EmptyState from "../../components/states/EmptyState";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -15,24 +18,38 @@ const Dashboard = () => {
     profile,
     loading: profileLoading,
     error: profileError,
+    refetch: refetchProfile,
   } = useProfile();
   const {
     projects,
     loading: projectsLoading,
     error: projectsError,
+    refetch: refetchProjects,
   } = useProjects();
-  const { skills, loading: skillsLoading, error: skillsError } = useSkills();
+  const {
+    skills,
+    loading: skillsLoading,
+    error: skillsError,
+    refetch: refetchSkills,
+  } = useSkills();
   const {
     certificates,
     loading: certificatesLoading,
     error: certificatesError,
+    refetch: refetchCertificates,
   } = useCertificates();
   const {
     messages,
-    isLoading: messagesLoading,
+    loading: messagesLoading,
     error: messagesError,
+    refetch: refetchMessages,
   } = useMessages();
-  const { visits, isLoading: visitsLoading, error: visitsError } = useVisits();
+  const {
+    visits,
+    loading: visitsLoading,
+    error: visitsError,
+    refetch: refetchVisits,
+  } = useVisits();
 
   return (
     <div>
@@ -40,13 +57,14 @@ const Dashboard = () => {
         <h1 className="text-accent border-border text-3xl font-bold">
           Dashboard
         </h1>
-        <p className="text-secondary">Welcome back, {profile?.name}!</p>
+        {profileLoading && <LoadingState />}
+        {!profileLoading && profileError && (
+          <ErrorState message={profileError.message} onRetry={refetchProfile} />
+        )}
+        {!profileLoading && !profileError && (
+          <p className="text-secondary">Welcome back, {profile?.name}!</p>
+        )}
       </div>
-
-      {profileLoading && <div className="text-secondary">Loading...</div>}
-      {profileError && (
-        <div className="text-red-500">Error: {profileError.message}</div>
-      )}
 
       {/* Feature Cards */}
       <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-5">
@@ -58,6 +76,7 @@ const Dashboard = () => {
           buttonText="View All"
           loading={visitsLoading}
           error={visitsError}
+          refetch={refetchVisits}
         />
 
         {/* Projects */}
@@ -68,6 +87,7 @@ const Dashboard = () => {
           buttonText="View All"
           loading={projectsLoading}
           error={projectsError}
+          refetch={refetchProjects}
         />
 
         {/* Skills */}
@@ -78,6 +98,7 @@ const Dashboard = () => {
           buttonText="View All"
           loading={skillsLoading}
           error={skillsError}
+          refetch={refetchSkills}
         />
 
         {/* Certificates */}
@@ -88,6 +109,7 @@ const Dashboard = () => {
           buttonText="View All"
           loading={certificatesLoading}
           error={certificatesError}
+          refetch={refetchCertificates}
         />
 
         {/* Messages */}
@@ -98,6 +120,7 @@ const Dashboard = () => {
           buttonText="View All"
           loading={messagesLoading}
           error={messagesError}
+          refetch={refetchMessages}
         />
       </div>
 
@@ -108,35 +131,53 @@ const Dashboard = () => {
           <h3 className="text-primary border-border border-b pb-3 text-xl font-bold">
             Recent Messages
           </h3>
-          <p className="text-secondary mt-3 text-sm font-medium">
-            <span className="text-accent font-bold">
-              {messages?.filter((message) => !message.isRead).length}
-            </span>{" "}
-            unread
-          </p>
 
-          <div className="my-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {messages
-              ?.toSorted(
-                (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
-              )
-              .slice(0, 4)
-              .map((message) => (
-                <MessageCard
-                  key={message._id}
-                  message={message}
-                  loading={messagesLoading}
-                  error={messagesError}
-                />
-              ))}
-          </div>
+          {messagesLoading && <LoadingState />}
 
-          <button
-            onClick={() => navigate("/admin/messages")}
-            className="bg-accent text-primary hover:bg-accent/80 w-full cursor-pointer rounded-lg px-4 py-2.5 font-semibold transition-colors"
-          >
-            View All Messages
-          </button>
+          {!messagesLoading && messagesError && (
+            <ErrorState
+              message={messagesError.message}
+              onRetry={refetchMessages}
+            />
+          )}
+
+          {!messagesLoading && !messagesError && messages.length === 0 && (
+            <EmptyState
+              title="No Messages Yet"
+              message="Messages from your portfolio contact form will appear here."
+              actionLabel="View Messages"
+              onAction={() => navigate("/admin/messages")}
+            />
+          )}
+
+          {!messagesLoading && !messagesError && messages.length > 0 && (
+            <div>
+              <p className="text-secondary mt-3 text-sm font-medium">
+                <span className="text-accent font-bold">
+                  {messages?.filter((message) => !message.isRead).length}
+                </span>{" "}
+                unread
+              </p>
+
+              <div className="my-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {messages
+                  ?.toSorted(
+                    (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+                  )
+                  .slice(0, 4)
+                  .map((message) => (
+                    <MessageCard key={message._id} message={message} />
+                  ))}
+              </div>
+
+              <button
+                onClick={() => navigate("/admin/messages")}
+                className="bg-accent text-primary hover:bg-accent/80 w-full cursor-pointer rounded-lg px-4 py-2.5 font-semibold transition-colors"
+              >
+                View All Messages
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Quick Actions */}

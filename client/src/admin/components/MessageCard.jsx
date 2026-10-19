@@ -1,13 +1,11 @@
 import { formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
-const MessageCard = ({ message, loading, error }) => {
+const MessageCard = ({ message }) => {
   const navigate = useNavigate();
 
   return (
     <div>
-      {loading && <div className="text-secondary">Loading...</div>}
-      {error && <div className="text-red-500">Error: {error.message}</div>}
       <div
         onClick={() => navigate(`/admin/messages/details/${message._id}`)}
         className="bg-accent-glow hover:bg-surface border-border flex cursor-pointer flex-col gap-2 rounded-lg border p-4 shadow-sm transition-colors"

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import useLogin from "../hooks/useLogin";
+import { LoaderCircle } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { mutate: loginUser, isPending: loading, error } = useLogin();
+  const { mutate: loginUser, isPending, error } = useLogin();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,7 +22,9 @@ const Login = () => {
 
         {/* Error Message */}
         {error && (
-          <p className="text-center text-sm text-red-500">{error.message}</p>
+          <p role="alert" className="text-center text-sm text-red-500">
+            {error.message}
+          </p>
         )}
 
         <div className="flex flex-col gap-2">
@@ -30,7 +33,10 @@ const Login = () => {
           </label>
           <input
             id="email"
+            name="email"
             type="email"
+            autoComplete="username"
+            required
             className="bg-background border-border text-primary focus:border-accent rounded-lg border p-3 transition-colors outline-none"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -44,6 +50,9 @@ const Login = () => {
           <input
             id="password"
             type="password"
+            name="password"
+            autoComplete="current-password"
+            required
             className="bg-background border-border text-primary focus:border-accent rounded-lg border p-3 transition-colors outline-none"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -52,10 +61,14 @@ const Login = () => {
 
         <button
           type="submit"
-          className="bg-accent text-primary cursor-pointer rounded-lg px-4 py-2 text-center text-lg font-semibold"
-          disabled={loading}
+          className="bg-accent text-primary flex cursor-pointer items-center justify-center rounded-lg px-4 py-2 text-center text-lg font-semibold"
+          disabled={isPending}
         >
-          {loading ? "Loading..." : "Login"}
+          {isPending ? (
+            <LoaderCircle className="animate-spin" size={18} />
+          ) : (
+            "Login"
+          )}
         </button>
       </form>
     </div>

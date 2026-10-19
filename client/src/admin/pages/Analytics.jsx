@@ -1,16 +1,13 @@
 import VisitsMessagesChart from "../components/VisitsMessagesChart";
 import ProjectsByTechChart from "../components/ProjectsByTechChart";
 import MessagesStatusChart from "../components/MessagesStatusChart";
+import AdminPageHeader from "../components/AdminPageHeader";
 
 const Analytics = () => {
   return (
     <div>
       {/* Header */}
-      <div className="border-border flex items-center justify-between border-b pb-4">
-        <h1 className="text-accent border-border text-3xl font-bold">
-          Analytics
-        </h1>
-      </div>
+      <AdminPageHeader title="Analytics" />
 
       <VisitsMessagesChart />
 

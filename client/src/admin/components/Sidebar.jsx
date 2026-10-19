@@ -21,6 +21,12 @@ const Sidebar = () => {
     setIsOpen(false);
   };
 
+  const handleLogout = () => {
+    logout();
+    setIsOpen(false);
+    navigate("/admin/login", { replace: true });
+  };
+
   return (
     <>
       <div className="bg-surface border-border hidden w-64 flex-col gap-4 border-r p-5 md:flex">
@@ -39,10 +45,7 @@ const Sidebar = () => {
 
         <button
           className="mt-auto flex w-full cursor-pointer items-center gap-3 rounded-xl px-4 py-3 text-left text-red-400 transition-colors hover:bg-red-500/10"
-          onClick={() => {
-            logout();
-            navigate("/admin/login");
-          }}
+          onClick={handleLogout}
         >
           Logout
         </button>
@@ -52,6 +55,9 @@ const Sidebar = () => {
       <div className="bg-surface border-border flex w-full items-center justify-between border-b p-4 md:hidden">
         <h1 className="text-accent text-lg font-bold">Admin Panel</h1>
         <button
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded={isOpen}
           onClick={() => setIsOpen(true)}
           className="text-primary bg-background/50 cursor-pointer rounded-lg p-2 text-xl"
         >
@@ -65,6 +71,8 @@ const Sidebar = () => {
           <div className="mb-8 flex items-center justify-between">
             <h1 className="text-accent text-xl font-bold">Menu</h1>
             <button
+              type="button"
+              aria-label="Close navigation menu"
               onClick={() => setIsOpen(false)}
               className="text-primary bg-background/50 cursor-pointer rounded-lg p-2 text-xl"
             >
@@ -91,11 +99,9 @@ const Sidebar = () => {
 
           {/* Logout Button */}
           <button
+            type="button"
             className="mt-auto flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-red-500/10 py-4 text-center text-red-400 transition-colors hover:bg-red-500/20"
-            onClick={() => {
-              logout();
-              navigate("/admin/login");
-            }}
+            onClick={handleLogout}
           >
             Logout
           </button>

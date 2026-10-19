@@ -1,17 +1,16 @@
 import MessagesGrid from "../components/MessagesGrid";
+import AdminPageHeader from "../components/AdminPageHeader";
 
 const MessageManagement = () => {
   return (
     <div>
       {/* Header */}
-      <div className="border-border flex items-center justify-between border-b pb-4">
-        <h1 className="text-accent border-border text-3xl font-bold">
-          Messages
-        </h1>
-      </div>
+      <AdminPageHeader title="Messages" />
 
       {/* Messages */}
-      <MessagesGrid />
+      <div className="mt-8">
+        <MessagesGrid />
+      </div>
     </div>
   );
 };

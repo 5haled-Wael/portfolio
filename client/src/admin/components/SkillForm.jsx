@@ -1,15 +1,28 @@
-import { useState } from "react";
+import { LoaderCircle } from "lucide-react";
+import { useState, useEffect } from "react";
 
-const SkillForm = ({ initialValues, submit }) => {
+const SkillForm = ({
+  initialValues,
+  onSubmit,
+  isPending = false,
+  submitLabel = "Submit",
+}) => {
   const [name, setName] = useState(initialValues?.name ?? "");
   const [type, setType] = useState(initialValues?.type ?? "");
   const [icon, setIcon] = useState(initialValues?.icon ?? "");
   const [order, setOrder] = useState(initialValues?.order ?? 0);
 
+  useEffect(() => {
+    setName(initialValues?.name ?? "");
+    setType(initialValues?.type ?? "");
+    setIcon(initialValues?.icon ?? "");
+    setOrder(initialValues?.order ?? 0);
+  }, [initialValues]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    submit({
+    onSubmit({
       name,
       type,
       icon,
@@ -86,9 +99,14 @@ const SkillForm = ({ initialValues, submit }) => {
           {/* Submit */}
           <button
             type="submit"
-            className="bg-accent text-primary hover:bg-accent/80 rounded-lg px-4 py-2 font-semibold transition-colors"
+            disabled={isPending}
+            className="bg-accent text-primary hover:bg-accent/80 flex items-center justify-center rounded-lg px-4 py-2 font-semibold transition-colors"
           >
-            Submit
+            {isPending ? (
+              <LoaderCircle className="animate-spin" size={18} />
+            ) : (
+              submitLabel
+            )}
           </button>
         </div>
       </form>

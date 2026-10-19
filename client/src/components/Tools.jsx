@@ -36,7 +36,7 @@ const Tools = () => {
       >
         {skills.map((skill, i) => (
           <motion.div
-            key={i}
+            key={skill._id}
             variants={fadeUp({ delay: i * 0.1 })}
             className="hover:bg-accent-glow flex items-center gap-4 rounded-2xl border border-gray-200 p-4 shadow-sm transition-colors"
           >

@@ -1,3 +1,4 @@
+import { LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -293,7 +294,11 @@ const ProjectForm = ({
             disabled={isPending}
             className="bg-accent text-primary hover:bg-accent/80 rounded-lg px-4 py-2 font-semibold transition-colors"
           >
-            {isPending ? "Submitting..." : submitLabel}
+            {isPending ? (
+              <LoaderCircle className="animate-spin" size={18} />
+            ) : (
+              submitLabel
+            )}
           </button>
         </div>
       </form>

@@ -7,9 +7,12 @@ import {
   Tooltip,
 } from "recharts";
 import useMessages from "../hooks/useMessages";
+import LoadingState from "../../components/states/LoadingState";
+import ErrorState from "../../components/states/ErrorState";
+import EmptyState from "../../components/states/EmptyState";
 
 const MessagesStatusChart = () => {
-  const { messages, loading, error } = useMessages();
+  const { messages, loading, error, refetch } = useMessages();
 
   const chartData = [
     {
@@ -30,14 +33,20 @@ const MessagesStatusChart = () => {
         Messages Status
       </h3>
 
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
+      {loading && <LoadingState />}
 
-      {!loading && messages.length === 0 ? (
-        <p className="text-secondary mt-3 text-sm font-medium">
-          No messages found
-        </p>
-      ) : (
+      {!loading && error && (
+        <ErrorState message={error.message} onRetry={refetch} />
+      )}
+
+      {!loading && !error && messages.length === 0 && (
+        <EmptyState
+          title="No Messages Yet"
+          message="Messages from your portfolio contact form will appear here."
+        />
+      )}
+
+      {!loading && !error && messages.length > 0 && (
         <ResponsiveContainer width="100%" height={250}>
           <PieChart>
             <Pie

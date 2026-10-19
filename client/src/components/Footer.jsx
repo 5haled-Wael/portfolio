@@ -1,8 +1,11 @@
 import { MdOutlineEmail } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
+import useProfile from "../hooks/useProfile";
 
 const Footer = () => {
+  const { profile } = useProfile();
+
   return (
     <footer className="mt-10 flex items-center justify-between gap-4 py-5 text-sm">
       {/* Navigation Links */}
@@ -27,22 +30,25 @@ const Footer = () => {
       {/* Social Links */}
       <div className="flex gap-2">
         <a
-          href="https://github.com/5haled-Wael"
+          href={profile?.github}
           target="_blank"
+          rel="noopener noreferrer"
           className="hover:text-accent text-xl transition-colors"
         >
           <FaGithub />
         </a>
         <a
-          href="https://www.linkedin.com/in/khaled-wael-665375320/"
+          href={profile?.linkedin}
           target="_blank"
+          rel="noopener noreferrer"
           className="hover:text-accent text-xl transition-colors"
         >
           <FaLinkedinIn />
         </a>
         <a
-          href="https://mail.google.com/mail/?view=cm&fs=1&to=waelk8506@gmail.com"
+          href={`https://mail.google.com/mail/?view=cm&fs=1&to=${profile?.email}`}
           target="_blank"
+          rel="noopener noreferrer"
           className="hover:text-accent text-xl transition-colors"
         >
           <MdOutlineEmail />

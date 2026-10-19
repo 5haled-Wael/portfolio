@@ -4,7 +4,7 @@ import ImageCard from "../components/ImageCard";
 import useProfile from "../hooks/useProfile";
 
 const Hero = () => {
-  const { profile, loading, error } = useProfile();
+  const { profile } = useProfile();
 
   return (
     <section
@@ -12,9 +12,6 @@ const Hero = () => {
       id="home"
     >
       <div className="mt-20 flex w-full flex-col gap-12 md:mt-0 md:flex-row md:items-center">
-        {loading && <div className="h-screen w-screen">Loading...</div>}
-        {error && <div>Error: {error.message}</div>}
-
         <motion.div
           variants={fadeUp({ delay: 0.2 })}
           initial="hidden"
@@ -33,16 +30,18 @@ const Hero = () => {
             {profile?.subtitle}
           </p>
           <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row md:justify-start">
-            <a
-              href={profile?.cv?.url?.replace(
-                "/upload/",
-                "/upload/fl_attachment:Khaled-Wael-CV/",
-              )}
-              download
-              className="bg-accent-glow hover:bg-accent cursor-pointer rounded-full px-5 py-3 transition-colors hover:text-black"
-            >
-              Download my CV
-            </a>
+            {profile?.cv?.url && (
+              <a
+                href={profile?.cv.url.replace(
+                  "/upload/",
+                  "/upload/fl_attachment:Khaled-Wael-CV/",
+                )}
+                download
+                className="bg-accent text-primary hover:bg-accent-glow flex items-center justify-center rounded-3xl px-4 py-2 text-center font-semibold transition-colors"
+              >
+                Download my CV
+              </a>
+            )}
             <a
               href="#projects"
               className="bg-accent-glow hover:bg-accent cursor-pointer rounded-full px-5 py-3 transition-colors hover:text-black"
