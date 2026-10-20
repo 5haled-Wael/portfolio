@@ -5,12 +5,12 @@ import useDeleteMessage from "../hooks/useDeleteMessage";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { FaReply } from "react-icons/fa";
-import Swal from "sweetalert2";
 import AdminPageHeader from "../components/AdminPageHeader";
 import AdminButton from "../components/AdminButton";
 import LoadingState from "../../components/states/LoadingState";
 import ErrorState from "../../components/states/ErrorState";
 import { LoaderCircle } from "lucide-react";
+import confirmDelete from "../utils/confirmDelete";
 
 const MessageDetails = () => {
   const navigate = useNavigate();
@@ -33,30 +33,23 @@ const MessageDetails = () => {
     }
   }, [message, id, updateMessage]);
 
-  const handleDeleteMessage = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed)
-        deleteMessage(
-          { id },
-          {
-            onSuccess: () => {
-              toast.success("Message deleted successfully!");
-              navigate("/admin/messages");
-            },
-            onError: (error) => {
-              toast.error(error.message || "Failed to delete message");
-            },
-          },
-        );
-    });
+  const handleDeleteMessage = async () => {
+    const isConfirmed = await confirmDelete();
+
+    if (!isConfirmed) return;
+
+    deleteMessage(
+      { id },
+      {
+        onSuccess: () => {
+          toast.success("Message deleted successfully!");
+          navigate("/admin/messages");
+        },
+        onError: (error) => {
+          toast.error(error.message || "Failed to delete message");
+        },
+      },
+    );
   };
 
   return (

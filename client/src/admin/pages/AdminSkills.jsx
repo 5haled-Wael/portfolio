@@ -2,38 +2,31 @@ import { useNavigate } from "react-router-dom";
 import useSkills from "../../hooks/useSkills";
 import useDeleteSkill from "../hooks/useDeleteSkill";
 import { toast } from "sonner";
-import Swal from "sweetalert2";
 import AdminPageHeader from "../components/AdminPageHeader";
 import AdminButton from "../components/AdminButton";
 import LoadingState from "../../components/states/LoadingState";
 import ErrorState from "../../components/states/ErrorState";
 import EmptyState from "../../components/states/EmptyState";
 import { PlusCircle } from "lucide-react";
+import confirmDelete from "../utils/confirmDelete";
 
 const AdminSkills = () => {
   const { skills, loading, error, refetch } = useSkills();
   const navigate = useNavigate();
   const { mutate: deleteSkill } = useDeleteSkill();
 
-  const handleDeleteSkill = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed)
-        deleteSkill(id, {
-          onSuccess: () => {
-            toast.success("Skill deleted successfully!");
-          },
-          onError: (error) => {
-            toast.error(error.message);
-          },
-        });
+  const handleDeleteSkill = async (id) => {
+    const isConfirmed = await confirmDelete();
+
+    if (!isConfirmed) return;
+
+    deleteSkill(id, {
+      onSuccess: () => {
+        toast.success("Skill deleted successfully!");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
     });
   };
 

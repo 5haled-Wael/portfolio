@@ -1,36 +1,29 @@
 import useProjects from "../../hooks/useProjects";
 import useDeleteProject from "../hooks/useDeleteProject";
 import { toast } from "sonner";
-import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import LoadingState from "../../components/states/LoadingState";
 import ErrorState from "../../components/states/ErrorState";
 import EmptyState from "../../components/states/EmptyState";
+import confirmDelete from "../utils/confirmDelete";
 
 const AdminProjectsGrid = () => {
   const { projects, loading, error, refetch } = useProjects();
   const { mutate: deleteProject } = useDeleteProject();
   const navigate = useNavigate();
 
-  const handleDeleteProject = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed)
-        deleteProject(id, {
-          onSuccess: () => {
-            toast.success("Project deleted successfully!");
-          },
-          onError: (error) => {
-            toast.error(error.message);
-          },
-        });
+  const handleDeleteProject = async (id) => {
+    const isConfirmed = await confirmDelete();
+
+    if (!isConfirmed) return;
+
+    deleteProject(id, {
+      onSuccess: () => {
+        toast.success("Project deleted successfully!");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
     });
   };
 

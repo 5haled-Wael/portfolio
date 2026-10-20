@@ -1,34 +1,27 @@
 import { useState } from "react";
 import useDeleteCertificate from "../hooks/useDeleteCertificate";
 import { toast } from "sonner";
-import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import confirmDelete from "../utils/confirmDelete";
 
 const AdminCertificateCard = ({ certificate }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const { mutate: deleteCertificate } = useDeleteCertificate();
   const navigate = useNavigate();
 
-  const handleDeleteCertificate = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed)
-        deleteCertificate(id, {
-          onSuccess: () => {
-            toast.success("Certificate deleted successfully!");
-          },
-          onError: (error) => {
-            toast.error(error.message);
-          },
-        });
+  const handleDeleteCertificate = async (id) => {
+    const isConfirmed = await confirmDelete();
+
+    if (!isConfirmed) return;
+
+    deleteCertificate(id, {
+      onSuccess: () => {
+        toast.success("Certificate deleted successfully!");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
     });
   };
 
