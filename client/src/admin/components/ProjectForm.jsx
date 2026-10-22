@@ -292,7 +292,7 @@ const ProjectForm = ({
           <button
             type="submit"
             disabled={isPending}
-            className="bg-accent text-primary hover:bg-accent/80 rounded-lg px-4 py-2 font-semibold transition-colors"
+            className="bg-accent text-primary hover:bg-accent/80 flex items-center justify-center rounded-lg px-4 py-2 font-semibold transition-colors"
           >
             {isPending ? (
               <LoaderCircle className="animate-spin" size={18} />

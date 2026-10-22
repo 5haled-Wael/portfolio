@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { GraduationCap, CalendarDays } from "lucide-react";
 import { fadeUp } from "../animations/animations";
 import PendulumCard from "./PendulumCard";
 import useProfile from "../hooks/useProfile";
@@ -23,6 +24,14 @@ const About = () => {
     { label: "Skills", value: skills?.length },
     { label: "Certificates", value: certificates?.length },
   ];
+
+  const education = [
+    { icon: GraduationCap, value: profile?.university },
+    {
+      icon: CalendarDays,
+      value: profile?.graduation && `Class of ${profile.graduation}`,
+    },
+  ].filter((item) => item.value);
 
   return (
     <section
@@ -57,6 +66,21 @@ const About = () => {
                 </motion.span>
               ))}
           </p>
+
+          <div className="mt-4 space-y-2">
+            {education.map((item, i) => (
+              <motion.div
+                key={i}
+                variants={fadeUp({ delay: 0.6 + i * 0.1 })}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+                className="text-secondary flex items-start gap-2 text-xs md:text-sm"
+              >
+                <item.icon className="text-accent mt-0.5 h-4 w-4 shrink-0" />
+                <span className="leading-relaxed">{item.value}</span>
+              </motion.div>
+            ))}
+          </div>
 
           <div className="mt-6 flex items-center">
             {stats.map((stat, i) => (

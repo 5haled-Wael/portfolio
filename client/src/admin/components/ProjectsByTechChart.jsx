@@ -29,7 +29,8 @@ const ProjectsByTechChart = () => {
       tag,
       count,
     }))
-    .sort((a, b) => b.count - a.count);
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 6);
 
   return (
     <div className="border-border bg-surface rounded-2xl border p-6 shadow-sm">
