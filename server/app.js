@@ -15,7 +15,14 @@ const app = express();
 
 app.use(helmet());
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      'https://portfolio-theta-amber-uva3trfj7h.vercel.app',
+      'http://localhost:5173',
+    ],
+  }),
+);
 
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
