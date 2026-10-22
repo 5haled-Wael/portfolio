@@ -29,6 +29,9 @@ const globalLimiter = rateLimit({
   limit: 100,
   standardHeaders: 'draft-8',
   legacyHeaders: false,
+  validate: {
+    forwardedHeader: false,
+  },
 });
 
 app.use('/api', globalLimiter);
